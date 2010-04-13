@@ -1,7 +1,21 @@
-= fedex_web_service
+= Fedex Web Service
 
-Description goes here.
+This is a ruby interface to the Fedex Web Services API. It's nowhere near complete and could use a lot of DRY'ing up, but I had an immediate need in a project I'm working on and thus began the gem.
 
+Right now it only supports the address verification and shipping label APIs. Later, it will support the track and rate (among others) APIs.
+
+== Dependencies
+Dependencies for this gem are a WSDL issued by fedex. You'll also need to apply for and be blessed with a Fedex key, password, account number and meter number. While in development, you can get away with testing credentials but you'll need production credentials to go live.
+
+Put wsdls in the lib/wsdl directory. That's where this looks for them.
+
+Put your credentials in the config/fedex_config.yml file.
+
+*Give yourself a month to get the production keys.* It won't take that long, but it's an arduous process requiring input from several levels of Fedex and your (clients) company.
+
+== TODO
+ *
+ *everything else
 == Note on Patches/Pull Requests
  
 * Fork the project.
@@ -14,4 +28,4 @@ Description goes here.
 
 == Copyright
 
-Copyright (c) 2010 bryce mcdonnell. See LICENSE for details.
+Copyright (c) 2010-present bryce mcdonnell. See LICENSE for details.
