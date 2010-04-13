@@ -14,7 +14,7 @@ Put your credentials in the config/fedex_config.yml file.
 *Give yourself a month to get the production keys.* It won't take that long, but it's an arduous process requiring input from several levels of Fedex and your (clients) company.
 
 == TODO
- *
+ *lots of coding
  *everything else
 == Note on Patches/Pull Requests
  

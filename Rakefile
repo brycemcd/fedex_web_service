@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "fedex_web_service"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{A quick and easy interface to the Fedex Web Services API}
+    gem.description = %Q{Provides an interface to several, but not all, of the FedEx web services. Currently provides Ship service and Address Verification. Utilizes the SOAP (blech) service so you must get a wsdl and production keys from FedEx}
     gem.email = "bryce@bridgetownint.com"
     gem.homepage = "http://github.com/brycem/fedex_web_service"
     gem.authors = ["bryce mcdonnell"]
