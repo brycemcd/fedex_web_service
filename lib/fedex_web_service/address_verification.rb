@@ -2,7 +2,7 @@ class FedexWebService
   class AddressVerification < FedexWebService
     #receives an order_info object and parses it into a verification request. Returns an AddressVerificationResponse (object)
     def verify_address(order)
-      puts wsdl = wsdl = File.expand_path( RAILS_ROOT + "/lib/wsdl/" + @default_options[:av_wsdl] )
+      puts wsdl = wsdl = File.expand_path( RAILS_ROOT + "/lib/wsdl/" + @fedex_conf[:av_wsdl] )
       driver = SOAP::WSDLDriverFactory.new(wsdl).create_rpc_driver
     
       call = { :WebAuthenticationDetail => {
@@ -53,18 +53,49 @@ class FedexWebService
                   :changedAddress, #address streetlines, modified by Fedex
                   :changedCity,
                   :changedState,
-                  :changedPostal
+                  :changedPostal,
+                  :responses
 
     def initialize(soap_response)
-      self.responseString           = soap_response.notifications.severity
-      self.changes                  = soap_response.addressResults.proposedAddressDetails.changes
-      self.deliveryPointValidation  = soap_response.addressResults.proposedAddressDetails.deliveryPointValidation
-      self.score                    = soap_response.addressResults.proposedAddressDetails.score.to_i
-      self.residentialStatus        = soap_response.addressResults.proposedAddressDetails.residentialStatus
-      self.changedAddress           = soap_response.addressResults.proposedAddressDetails.address.streetLines.to_s
-      self.changedCity              = soap_response.addressResults.proposedAddressDetails.address.city
-      self.changedState             = soap_response.addressResults.proposedAddressDetails.address.stateOrProvinceCode
-      self.changedPostal            = soap_response.addressResults.proposedAddressDetails.address.postalCode
-    end
+        @soap_response = soap_response #so we can use it with other methods in this class
+
+        address_results = address_results_an_array? ? @soap_response.addressResults.proposedAddressDetails[0] : @soap_response.addressResults.proposedAddressDetails
+
+        self.responseString           = soap_response.notifications.severity
+        self.changes                  = address_results.changes
+        self.deliveryPointValidation  = address_results.deliveryPointValidation
+        self.score                    = address_results.score.to_i
+        self.residentialStatus        = address_results.residentialStatus 
+        self.changedAddress           = address_results.address.streetLines.to_s
+        self.changedCity              = address_results.address.city
+        self.changedState             = address_results.address.stateOrProvinceCode
+        self.changedPostal            = address_results.address.postalCode
+        self.responses                = []
+
+        set_other_responses if address_results_an_array?
+
+      end
+
+      protected
+
+      def set_other_responses
+
+          @soap_response.addressResults.proposedAddressDetails.each do |address_results|
+            response = {}
+            response[:changes]                  = address_results.changes
+            response[:deliveryPointValidation]  = address_results.deliveryPointValidation
+            response[:score]                    = address_results.score.to_i
+            response[:residentialStatus]        = address_results.residentialStatus 
+            response[:changedAddress]           = address_results.address.streetLines.to_s
+            response[:changedCity]              = address_results.address.city
+            response[:changedState]             = address_results.address.stateOrProvinceCode
+            response[:changedPostal]            = address_results.address.postalCode
+            self.responses << response
+          end
+      end
+
+      def address_results_an_array?
+        @soap_response.addressResults.proposedAddressDetails.is_a?(Array)
+      end
   end
 end

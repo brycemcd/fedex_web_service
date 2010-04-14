@@ -2,7 +2,7 @@ require "soap/wsdlDriver" #FIXME MAKE SURE TO REMOVE NEW VERSIONS OF SOAP4R 1.5.
 require 'xmlrpc/client'
 require 'net/ftp'
 
-require "services/address_verification"
+require "fedex_web_service/address_verification"
     
 class FedexWebService
   attr_accessor :tracking_number, :label, :full_response, :temp_image
@@ -22,7 +22,7 @@ class FedexWebService
   @@gem_default_options ={
     :drop_off_type      => "REGULAR_PICKUP",
     :residential        => true,
-    :label              => 'RESIDENTIAL',
+    :label              => 'GROUND_HOME_DELIVERY',
     :drop_off_type      => 'REGULAR_PICKUP',
     :packaging_type     => 'YOUR_PACKAGING',
     :label_format_type  => 'COMMON2D',
@@ -47,9 +47,9 @@ class FedexWebService
     # the method returns the tracking number as a result to show that the request was done correctly, those class attributes
     # are set to include the tracking number, the label (img) and the full response (SOAP object ... yech)
       
-    options = self.default_options.merge( options )
+    options = @default_options.merge( options ).symbolize_keys!
     
-    wsdl = File.expand_path( RAILS_ROOT + 'lib/wsdl/' + self.ss_wsdl )
+    wsdl = File.expand_path( RAILS_ROOT + '/lib/wsdl/' + @fedex_conf[:ss_wsdl] )
     driver = build_wsdl_driver(wsdl)
     
 
@@ -66,7 +66,7 @@ class FedexWebService
       :Recipient => { #should have same address as Origin per docs
         :Contact => {
           :PersonName => address_info.first_name + " " + address_info.last_name,
-          :PhoneNumber => phone #params[:phone] 
+          :PhoneNumber => address_info.phone #params[:phone] 
           
         },
         :Address => {
@@ -95,7 +95,7 @@ class FedexWebService
       :ShippingChargesPayment => {
         :PaymentType => 'SENDER',
         :Payor => {
-          :AccountNumber => self.accountnumber,
+          :AccountNumber => @accountnumber,
           :CountryCode => 'US'
         }
       },
@@ -117,7 +117,7 @@ class FedexWebService
           :Height => options[:dimensions][:height], 
           :Units => "IN"
         },
-        :CustomerReferences => [{:CustomerReferenceType => "INVOICE_NUMBER", :Value => "#{options[:invoice_number]}"], #in a string so if it's empty it's just an empty string
+        :CustomerReferences => [{:CustomerReferenceType => "INVOICE_NUMBER", :Value => "#{options[:invoice_number]}"} ],      #in a string so if it's empty it's just an empty string
       }]
     }
   }
