@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{fedex_web_service}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["bryce mcdonnell"]
@@ -24,6 +24,8 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "fedex_web_service.gemspec",
+     "generators/fedex_generator/fedex_generator.rb",
+     "generators/fedex_generator/templates/fedex.yml",
      "lib/fedex_web_service.rb",
      "lib/fedex_web_service/address_verification.rb",
      "test/helper.rb",
