@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["bryce mcdonnell"]
-  s.date = %q{2010-04-13}
+  s.date = %q{2010-04-19}
   s.description = %q{Provides an interface to several, but not all, of the FedEx web services. Currently provides Ship service and Address Verification. Utilizes the SOAP (blech) service so you must get a wsdl and production keys from FedEx}
   s.email = %q{bryce@bridgetownint.com}
   s.extra_rdoc_files = [

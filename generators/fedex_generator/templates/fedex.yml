@@ -1,0 +1,36 @@
+testcommon: &testing
+    key: afewletters
+    password: morelettersandnumbers
+    accountnumber: youraccountnumber
+    meternumber: yourmeternumber
+    av_wsdl: name of address verification wsdl (in lib/wsdl)
+    ss_wsdl: name of ship service wsdl (in lib/wsdl)
+    defaults:
+        person_name: a dude
+        phone_number: 555-555-2424
+        address: 123 Main St.
+        city: Portland
+        state: OR
+        postal_code: 97123
+prodcommon: &production
+    key: afewletters
+    password: morelettersandnumbers
+    accountnumber: youraccountnumber
+    meternumber: yourmeternumber
+    av_wsdl: name of address verification wsdl (in lib/wsdl)
+    ss_wsdl: name of ship service wsdl (in lib/wsdl)
+    defaults:
+        person_name: a dude
+        phone_number: 555-555-2424
+        address: 123 Main St.
+        city: Portland
+        state: OR
+        postal_code: 97123
+    
+development:
+    <<: *testing
+test:
+    <<: *testing
+production:
+    <<: *production
+# put other environments here and inherit either your testing or production creds

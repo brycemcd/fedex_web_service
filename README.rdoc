@@ -13,6 +13,14 @@ Put your credentials in the config/fedex_config.yml file.
 
 *Give yourself a month to get the production keys.* It won't take that long, but it's an arduous process requiring input from several levels of Fedex and your (clients) company.
 
+== Generate fedex config file
+
+Fedex has a TON of variables and instead of passing every permutation of label, originator address etc. into every call to print a label, the fedex_config.yml file can be read for a list of defaults.
+
+*run script/generate fedex fedex_config*
+
+config/fedex_config.yml will appear in your rails app and you can customize to taste.
+
 == TODO
  *lots of coding
  *everything else
